@@ -51,8 +51,17 @@ function renderCourses(filter = 'All') {
       <div class="course-top"><span class="pill">${esc(c.exam)}</span><span>${c.lessons || 0} lessons</span></div>
       <h3>${esc(c.title)}</h3><p>${esc(c.description)}</p>
       <div class="chips">${(c.skills || []).map(s => `<span>${esc(s)}</span>`).join('')}</div>
-      <button type="button" class="secondary" data-view="pricing">Get access</button>
+      <div class="card-actions"><button type="button" class="secondary" data-course="${esc(c.id)}">View course</button><button type="button" class="primary" data-view="pricing">Get access</button></div>
     </article>`).join('') || '<p>No courses published yet.</p>';
+}
+
+
+function openCourse(id) {
+  const c = (content?.courses || []).find(x => x.id === id);
+  if (!c) return;
+  const lessons = (content?.lessons || []).filter(l => l.courseId === id);
+  openModal(`<span class="pill">${esc(c.exam)}</span><h2>${esc(c.title)}</h2><p>${esc(c.description)}</p><div class="chips">${(c.skills||[]).map(s=>`<span>${esc(s)}</span>`).join('')}</div><h3>Course lessons</h3><div class="lesson-list">${lessons.map(l=>`<button type="button" class="lesson-item" data-lesson="${esc(l.id)}"><b>${esc(l.title)}</b><span>${esc(l.skill)}</span></button>`).join('') || '<p>No lessons published yet.</p>'}</div><button type="button" class="primary" id="coursePlans">Choose membership</button>`);
+  $('#coursePlans')?.addEventListener('click',()=>{closeModal();show('pricing');});
 }
 
 function renderClasses() {
@@ -213,11 +222,12 @@ async function deleteItem(type,id){if(!confirm('Delete this item?'))return;try{a
 async function approvePayment(id){try{await api(`/api/admin/payment/${encodeURIComponent(id)}/approve`,{method:'POST'});toast('Payment approved and membership activated','success');await loadAdmin();}catch(e){toast(e.message,'error');}}
 async function rejectPayment(id){try{await api(`/api/admin/payment/${encodeURIComponent(id)}/reject`,{method:'POST'});toast('Payment rejected','success');await loadAdmin();}catch(e){toast(e.message,'error');}}
 
-Object.assign(window,{show,openLogin,openRegister,closeModal,login,register,subscribePlan,submitBankPayment,markComplete,approvePayment,rejectPayment,adminSection,saveCourse,saveLesson,savePlan,saveTeacher,saveClass,saveSettings,deleteItem,editCourse,editLesson,editPlan,editTeacher,editClass});
+Object.assign(window,{show,openCourse,openLogin,openRegister,closeModal,login,register,subscribePlan,submitBankPayment,markComplete,approvePayment,rejectPayment,adminSection,saveCourse,saveLesson,savePlan,saveTeacher,saveClass,saveSettings,deleteItem,editCourse,editLesson,editPlan,editTeacher,editClass});
 
 document.addEventListener('click', e => {
   const view = e.target.closest('[data-view]'); if (view) { e.preventDefault(); show(view.dataset.view); return; }
   const filter = e.target.closest('[data-filter]'); if (filter) { $$('.filter').forEach(x => x.classList.remove('active')); filter.classList.add('active'); renderCourses(filter.dataset.filter); return; }
+  const course = e.target.closest('[data-course]'); if (course) { e.preventDefault(); openCourse(course.dataset.course); return; }
   const lesson = e.target.closest('[data-lesson]'); if (lesson) { e.preventDefault(); openLesson(lesson.dataset.lesson); return; }
   const plan = e.target.closest('.subscribe'); if (plan) { subscribePlan(plan.dataset.plan); return; }
   if (e.target.closest('#logoutBtn')) logout();
