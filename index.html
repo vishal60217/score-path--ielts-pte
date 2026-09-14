@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="ScorePath IELTS and PTE online learning platform">
+<title>ScorePath — IELTS & PTE</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo">S</span><span>ScorePath</span></div>
+  <nav>
+    <button data-view="home">Home</button><button data-view="courses">Courses</button><button data-view="tests">Tests</button><button data-view="live">Live Classes</button><button data-view="pricing">Pricing</button>
+    <button id="accountBtn" class="primary">Login</button>
+  </nav>
+</header>
+
+<main>
+<section id="home" class="view active hero">
+  <div>
+    <p class="eyebrow">IELTS + PTE • Online Learning</p>
+    <h1>Learn smarter. Practice daily. <span>Score higher.</span></h1>
+    <p class="lead">Affordable lessons, practice tests, live-class support and progress tracking in one place.</p>
+    <div class="actions"><button class="primary" data-view="pricing">Start for ₹200/month</button><button class="secondary" data-view="courses">Explore courses</button></div>
+  </div>
+  <div class="hero-card"><div class="score">₹200</div><p>Monthly access</p><hr><div class="score">₹500</div><p>3-month access</p><small>Payment gateway ready for your own account.</small></div>
+</section>
+
+<section id="courses" class="view">
+  <div class="section-head"><div><p class="eyebrow">COURSES</p><h2>IELTS & PTE skills</h2></div></div>
+  <div id="lessonGrid" class="grid"></div>
+</section>
+
+<section id="tests" class="view">
+  <p class="eyebrow">PRACTICE</p><h2>Quick diagnostic test</h2><p>Try the sample questions and see your score.</p>
+  <div id="testBox"></div>
+</section>
+
+<section id="live" class="view">
+  <p class="eyebrow">LIVE LEARNING</p><h2>Upcoming classes</h2><div id="classGrid" class="grid"></div>
+</section>
+
+<section id="pricing" class="view">
+  <p class="eyebrow">SIMPLE PRICING</p><h2>Choose your access</h2>
+  <div class="pricing">
+    <article class="price-card"><h3>Monthly</h3><div class="price">₹200 <small>/ month</small></div><ul><li>IELTS + PTE lessons</li><li>Practice tests</li><li>Live-class schedule</li><li>Student dashboard</li></ul><button class="primary subscribe" data-plan="monthly">Choose Monthly</button></article>
+    <article class="price-card featured"><div class="tag">Best value</div><h3>3 Months</h3><div class="price">₹500 <small>/ 3 months</small></div><ul><li>Everything in Monthly</li><li>Longer access</li><li>Progress tracking</li><li>Regular practice</li></ul><button class="primary subscribe" data-plan="quarterly">Choose 3 Months</button></article>
+  </div>
+</section>
+
+<section id="dashboard" class="view">
+  <p class="eyebrow">STUDENT AREA</p><h2>Your dashboard</h2><div id="dash"></div>
+</section>
+</main>
+
+<div id="modal" class="modal hidden"><div class="modal-card"><button class="close" onclick="closeModal()">×</button><div id="modalBody"></div></div></div>
+<footer>© <span id="year"></span> ScorePath. Not affiliated with IELTS or Pearson.</footer>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
